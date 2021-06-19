@@ -1,7 +1,6 @@
 ---
   - hosts: instances:bastion:!windows
     vars:
-      logdna_ingestion_key: "edab4072374614db394d1c4d73ae25e2"
       region: "us-south"
     tasks:
       - name: Add logdna apt-key

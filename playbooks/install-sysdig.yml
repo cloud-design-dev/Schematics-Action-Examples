@@ -2,7 +2,6 @@
   - hosts: bastion:instances:!windows
     vars:
       region: "us-south"
-      sysdig_key: "20dc2b4f-7ed6-4f50-bf82-d1e4a1c59ee8"
     tasks:
       - name: Add sysdig agent 
         shell: curl -sL "https://ibm.biz/install-sysdig-agent" | bash -s -- -a "{{ sysdig_key }}" -c ingest.us-south.monitoring.cloud.ibm.com --collector_port 6443 --secure true --tags "region:{{ region }},system:{{ ansible_hostname }}"
