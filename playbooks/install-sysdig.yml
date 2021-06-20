@@ -1,5 +1,5 @@
 ---
-  - hosts: bastion:instances:!windows
+  - hosts: all
     vars:
       region: "us-south"
     tasks:
