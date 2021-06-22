@@ -1,7 +1,5 @@
 ---
-  - hosts: instances:bastion:!windows
-    vars:
-      region: "us-south"
+  - hosts: all
     tasks:
       - name: Add logdna apt-key
         apt_key:
@@ -18,10 +16,10 @@
       - name: set logdna-agent ingestion key 
         shell: logdna-agent -k "{{ logdna_ingestion_key }}"
       - name: set logdna-agent api endpoint 
-        shell: logdna-agent -s "LOGDNA_APIHOST=api.us-south.logging.cloud.ibm.com"
+        shell: logdna-agent -s "LOGDNA_APIHOST=api.{{ region }}.logging.cloud.ibm.com"
       - name: set logdna-agent logging endpoint 
-        shell: logdna-agent -s "LOGDNA_LOGHOST=logs.us-south.logging.cloud.ibm.com"
+        shell: logdna-agent -s "LOGDNA_LOGHOST=private.logs.{{ region }}.logging.cloud.ibm.com"
       - name: set logdna-agent tags
         shell: logdna-agent -t "system:{{ ansible_hostname }},region:{{ region }}"
       - name: enable service at start up 
-        shell: systemctl enable logdna-agent
+        shell: systemctl enable --now logdna-agent
