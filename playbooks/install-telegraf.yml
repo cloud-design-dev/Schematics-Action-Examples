@@ -1,27 +1,32 @@
 ---
   - hosts: all
+    gather_facts: yes
     tasks:
-      - name: Add Telegraf repo to Debian based systems
+      - name: Add Telegraf repo to Ubuntu systems
         apt_repository:
           repo: deb https://repos.influxdata.com/ubuntu {{ ansible_distribution_release }} stable
           state: present
-        when: ansible_facts['os_family'] == "Debian"
-      - name: Update apt packages on Debian based systems
-        apt: update_cache=yes
-        when: ansible_facts['os_family'] == "Debian"
-      - name: Install Telegraf on Debian based systems
+        update_cache: yes
+        when: ansible_facts['ansible_distribution'] == "Ubuntu"
+      - name: Add Telegraf repo to Debian based systems
+        apt_repository:
+          repo: deb https://repos.influxdata.com/debian {{ ansible_distribution_release }} stable
+          state: present
+        update_cache: yes
+        when: ansible_facts['ansible_distribution'] == "Debian" 
+      - name: Install Telegraf on Debian and Ubuntu systems
         apt:
           name: telegraf
           state: present
-          update_cache: yes
-        when: ansible_facts['os_family'] == "Debian"
+        update_cache: yes
+        when: ansible_facts['ansible_distribution'] == "Debian" or ansible_facts['ansible_distribution'] == "Ubuntu"
       - name: Add Telegraf repo to RPM Based systems
         blockinfile:
           path: /etc/yum.repos.d/influxdb.repo
           block: |
             [influxdb]
-            name = InfluxDB Repository - RHEL 
-            baseurl = https://repos.influxdata.com/rhel/7/x86_64/stable/
+            name = InfluxDB Repository - RHEL \$releasever
+            baseurl = https://repos.influxdata.com/rhel/\$releasever/\$basearch/stable
             enabled = 1
             gpgcheck = 1
             gpgkey = https://repos.influxdata.com/influxdb.key
