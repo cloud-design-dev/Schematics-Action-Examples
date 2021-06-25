@@ -14,7 +14,6 @@
           name: telegraf
           state: present
           update_cache: yes
-        check_mode: no
         when: ansible_facts['os_family'] == "Debian"
       - name: Add Telegraf repo to RPM Based systems
         blockinfile:
@@ -27,13 +26,11 @@
             gpgcheck = 1
             gpgkey = https://repos.influxdata.com/influxdb.key
           create: yes 
-        check_mode: no
         when: ansible_facts['os_family'] == "RedHat"
       - name: Install Telegraf on RPM based systems
         yum:
           name: telegraf
           state: present
-        check_mode: no
         when: ansible_facts['os_family'] == "RedHat"
       - name: Template Telegraf configuration and send to instances
         template:
