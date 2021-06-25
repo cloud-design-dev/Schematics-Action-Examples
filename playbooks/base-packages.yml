@@ -1,0 +1,22 @@
+---
+  - hosts: all
+    tasks:
+      - name: Update apt packages on Ubuntu systems
+        apt: upgrade=yes update_cache=yes
+        when: ansible_facts['os_family'] == "Debian"
+      - name: Ensure basic system packages are installed on Ubuntu systems
+        apt:
+          pkg:
+            - python3-pip
+            - python3-apt
+            - build-essential
+            - jq
+            - curl
+            - wget
+            - zsh
+            - git
+          state: present
+        when: ansible_facts['os_family'] == "Debian"
+      - name: Update yum packages on Centos systems
+        yum: name=* state=latest
+        when: ansible_facts['os_family'] == "RedHat"
