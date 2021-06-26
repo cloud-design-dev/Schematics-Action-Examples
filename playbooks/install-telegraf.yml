@@ -2,6 +2,11 @@
   - hosts: all
     gather_facts: yes
     tasks:
+      - name: Add Telegraf apt-key 
+        apt_key: 
+          url: https://repos.influxdata.com/influxdb.key
+          state: present
+        when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
       - name: Add Telegraf repo to Ubuntu systems
         apt_repository:
           repo: deb https://repos.influxdata.com/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
