@@ -5,12 +5,14 @@
         apt_key:
           url: https://repo.logdna.com/logdna.gpg
           state: present
+        when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
       - name: Add logdna repo
         apt_repository:
           repo: deb https://repo.logdna.com stable main
+        when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
       - name: Update apt packages
         apt: upgrade=yes update_cache=yes
-        when: ansible_facts['os_family'] == "Debian"
+        when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
       - name: Install logdna-agent
         apt:
           name: logdna-agent

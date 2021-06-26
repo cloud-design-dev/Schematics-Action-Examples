@@ -2,4 +2,4 @@
   - hosts: all
     tasks:
       - name: Add sysdig agent 
-        shell: curl -sL "https://ibm.biz/install-sysdig-agent" | bash -s -- -a "{{ sysdig_key }}" -c ingest.us-south.monitoring.cloud.ibm.com --collector_port 6443 --secure true --tags "region:{{ region }},system:{{ ansible_hostname }}"
+        shell: curl -sL "https://ibm.biz/install-sysdig-agent" | bash -s -- -a "{{ sysdig_key }}" -c ingest.{{ region }}.monitoring.cloud.ibm.com --collector_port 6443 --secure true --tags "region:{{ region }},system:{{ ansible_hostname }}"
