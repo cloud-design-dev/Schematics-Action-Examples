@@ -7,19 +7,19 @@
           repo: deb https://repos.influxdata.com/ubuntu {{ ansible_distribution_release }} stable
           state: present
         update_cache: yes
-        when: {{ ansible_distribution }} == "Ubuntu"
+        when: ansible_distribution == "Ubuntu"
       - name: Add Telegraf repo to Debian based systems
         apt_repository:
           repo: deb https://repos.influxdata.com/debian {{ ansible_distribution_release }} stable
           state: present
           update_cache: yes
-        when: {{ ansible_distribution }} == "Debian" 
+        when: ansible_distribution == "Debian" 
       - name: Install Telegraf on Debian and Ubuntu systems
         apt:
           name: telegraf
           state: present
         update_cache: yes
-        when: {{ ansible_distribution }} == "Debian" or {{ ansible_distribution }} == "Ubuntu"
+        when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu" 
       - name: Add Telegraf repo to RPM Based systems
         blockinfile:
           path: /etc/yum.repos.d/influxdb.repo
@@ -31,12 +31,12 @@
             gpgcheck = 1
             gpgkey = https://repos.influxdata.com/influxdb.key
           create: yes 
-        when: {{ ansible_os_family }}  == "RedHat"
+        when: ansible_os_family == "RedHat"
       - name: Install Telegraf on RPM based systems
         yum:
           name: telegraf
           state: present
-        when: {{ ansible_os_family }} == "RedHat"
+        when: ansible_os_family == "RedHat"
       - name: Template Telegraf configuration and send to instances
         template:
           src: ../templates/telegraf.j2
