@@ -6,7 +6,7 @@
         apt_repository:
           repo: deb https://repos.influxdata.com/ubuntu {{ ansible_distribution_release }} stable
           state: present
-        update_cache: yes
+          update_cache: yes
         when: ansible_distribution == "Ubuntu"
       - name: Add Telegraf repo to Debian based systems
         apt_repository:
@@ -18,7 +18,7 @@
         apt:
           name: telegraf
           state: present
-        update_cache: yes
+          update_cache: yes
         when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu" 
       - name: Add Telegraf repo to RPM Based systems
         blockinfile:
