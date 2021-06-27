@@ -4,6 +4,7 @@
   remote_user: root
 
   roles:
+    - base
     - monitoring
     - logging
     - telegraf
