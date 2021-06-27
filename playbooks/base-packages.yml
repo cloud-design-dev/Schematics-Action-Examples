@@ -1,10 +1,10 @@
 ---
   - hosts: all
     tasks:
-      - name: Update apt packages on Ubuntu systems
+      - name: Update package cache and packages on Debian and Ubuntu systems
         apt: upgrade=yes update_cache=yes
-        when: ansible_facts['os_family'] == "Debian"
-      - name: Ensure basic system packages are installed on Ubuntu systems
+        when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+      - name: Ensure basic system packages are installed on Debian and Ubuntu systems
         apt:
           pkg:
             - python3-pip
@@ -16,7 +16,13 @@
             - zsh
             - git
           state: present
-        when: ansible_facts['os_family'] == "Debian"
-      - name: Update yum packages on Centos systems
+        when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+      - name: Update yum packages on RedHat and CentOS systems
         yum: name=* state=latest
-        when: ansible_facts['os_family'] == "RedHat"
+        when: ansible_distribution == "RedHat" or ansible_distribution == "CentOS" 
+      - name: Install base tools for RedHat and CentOS systems
+        yum:
+          name: 
+            - "@Development tools"
+            - nano
+          state: present
