@@ -26,3 +26,4 @@
             - "@Development tools"
             - nano
           state: present
+        when: ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
