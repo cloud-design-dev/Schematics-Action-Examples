@@ -1,6 +1,7 @@
- - name: Deploy and configure IBM Cloud Monitoring and Logging 
-   hosts: all
-   remote_user: root
+---
+- name: Deploy and configure IBM Cloud Monitoring and Logging 
+  hosts: all
+  remote_user: root
 
   roles:
     - monitoring
