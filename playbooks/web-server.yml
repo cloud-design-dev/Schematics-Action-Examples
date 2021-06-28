@@ -1,0 +1,13 @@
+---
+  - hosts: all
+    tasks:
+      - name: Install Apache web server on Deb based servers 
+        apt:
+          name: apache2
+          state: present 
+        when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+      - name: Install Apache web server on RPM based servers 
+        apt:
+          name: apache2
+          state: present 
+        when: ansible_distribution == "RedHat" or ansible_distribution == "CentOS" 
