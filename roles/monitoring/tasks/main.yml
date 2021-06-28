@@ -1,8 +1,3 @@
 ---
-- name: Download Sysdig Agent to all systems 
-  get_url:
-    url: https://ibm.biz/install-sysdig-agent"
-    dest: /tmp/sysdig-agent
-    mode: '0755'
-- name: Install Sysdig Agent 
-  shell: /tmp/sysdig-agent -a "{{ sysdig_key }}" -c ingest.{{ region }}.monitoring.cloud.ibm.com --collector_port 6443 --secure true --tags "region:{{ region }},system:{{ ansible_hostname }},project:lunchlab"
+- name: Add sysdig agent 
+  shell: curl -sL "https://ibm.biz/install-sysdig-agent" | bash -s -- -a "{{ sysdig_key }}" -c ingest.{{ region }}.monitoring.cloud.ibm.com --collector_port 6443 --secure true --tags "region:{{ region }},system:{{ ansible_hostname }}"
