@@ -30,14 +30,14 @@
           block: export CONSUL_HTTP_ADDR="http://{{ ansible_ens3.ipv4.address }}:8500"
       - name: Copy server config to /etc/consul.d/server.hcl
         copy:
-          src: ../templates/server.hcl
+          src: ./templates/server.hcl
           dest: /etc/consul.d/server.hcl
           owner: consul
           group: consul
           mode: '0640'
       - name: Template consul client file 
         template:
-          src: ../templates/consul-client.j2
+          src: ./templates/consul-client.j2
           dest: /etc/consul.d/consul.hcl
           owner: consul
           group: consul
