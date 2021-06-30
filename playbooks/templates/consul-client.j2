@@ -3,3 +3,11 @@ data_dir = "/opt/consul"
 encrypt = "{{ encrypt_key }}"
 advertise_addr = "{{ ansible_ens3.ipv4.address }}"
 retry_join = ["nomad.cde.devland", "vault.cde.devland", "influx.cde.devland"]
+acl = {
+    enabled = true,
+    default_policy = "allow",
+    enable_token_persistence = true
+    tokens = {
+      "master" =  "{{ acl_token }}"
+    }
+}
