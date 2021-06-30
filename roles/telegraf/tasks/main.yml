@@ -42,7 +42,7 @@
   when: ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
 - name: Template Telegraf configuration and send to instances
   template:
-    src: ../templates/telegraf.j2
+    src: ../../../playbooks/templates/telegraf.j2
     dest: /etc/telegraf/telegraf.conf
     owner: root
     group: root
