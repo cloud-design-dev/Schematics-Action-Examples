@@ -1,0 +1,17 @@
+---
+  - hosts: all
+    tasks:
+      - name: Update apt packages
+        apt: upgrade=yes update_cache=yes
+        when: ansible_facts['os_family'] == "Debian"
+      - name: Download veeam debian package
+        get_url:
+          url: https://dsc.cloud/quickshare/veeam-release-deb_1.0.8_amd64.deb
+          dest: /tmp/veeam-release-deb_1.0.8_amd64.deb
+      - name: Install veeam agent
+        apt:
+          deb: /tmp/veeam-release-deb_1.0.8_amd64.deb
+      - name: take 2
+        apt:
+          name: veeam-nosnap
+          state: present
