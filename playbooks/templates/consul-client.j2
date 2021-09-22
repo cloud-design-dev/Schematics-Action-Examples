@@ -1,13 +1,13 @@
-datacenter = "rtlab"
+datacenter = "{{ DATACENTER }}"
 data_dir = "/opt/consul"
-encrypt = "{{ encrypt_key }}"
+encrypt = "{{ ENCRYPT_KEY }}"
 advertise_addr = "{{ ansible_ens3.ipv4.address }}"
-retry_join = ["consul1.gh40.lab", "consul2.gh40.lab", "consul3.gh40.lab"]
+retry_join = ["hashilab-consul-0.rt.lab", "hashilab-consul-1.rt.lab", "hashilab-consul-1.rt.lab"]
 acl = {
     enabled = true,
     default_policy = "allow",
     enable_token_persistence = true
     tokens = {
-      "master" =  "{{ acl_token }}"
+      "master" =  "{{ ACL_TOKEN }}"
     }
 }
