@@ -1,8 +1,9 @@
 ---
   - hosts: all
     vars:
-      - encrypt_key: $ENCRYPT_KEY
-      - datacenter: $DATACENTER
+      - ENCRYPT_KEY: $ENCRYPT_KEY
+      - DATACENTER: $DATACENTER
+      - ACL_TOKEN: $ACL_TOKEN
     tasks:
       - name: Update apt packages
         apt: upgrade=yes update_cache=yes
