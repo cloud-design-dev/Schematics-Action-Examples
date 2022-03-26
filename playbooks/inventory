@@ -1,0 +1,7 @@
+[consul]
+consul-0 ansible_host=10.242.0.5 ansible_user=root 
+consul-1 ansible_host=10.242.64.4 ansible_user=root
+consul-2 ansible_host=10.242.128.4 ansible_user=root
+ 
+[consul:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no -o ProxyCommand="ssh -W %h:%p -q root@161.156.198.81 -o StrictHostKeyChecking=no"'

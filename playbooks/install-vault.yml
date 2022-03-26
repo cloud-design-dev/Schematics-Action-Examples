@@ -16,45 +16,48 @@
           url: https://apt.releases.hashicorp.com/gpg
           state: present
         when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
-      - name: Add consul repo 
+      - name: Add Vault repo 
         apt_repository:
           repo: deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_lsb.codename }} main
         when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
-      - name: Install consul 
+      - name: Install Vault on servers 
         apt:
-          name: consul
+          name: vault
           state: present
           update_cache: yes
         when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
-      - name: Set consul client environment variable 
-        blockinfile:
-          path: /root/.bashrc
-          block: export CONSUL_HTTP_ADDR="http://127.0.0.1:8500"
-      - name: Copy server config to /etc/consul.d/server.hcl
-        copy:
-          src: ./templates/server.hcl
-          dest: /etc/consul.d/server.hcl
-          owner: consul
-          group: consul
-          mode: '0640'
-      - name: Template consul client file 
+      - name: Template Vault config to /etc/vault.d/vault.hcl
         template:
-          src: ./templates/consul-client.j2
-          dest: /etc/consul.d/consul.hcl
-          owner: consul
-          group: consul
+          src: ./templates/vault-config.j2
+          dest: /etc/vault.d/vault.hcl
+          owner: vault
+          group: vault
           mode: '0640'
-      - name: Reset consul directory permissions
+      - name: Copy over modified service file
+        copy:
+          src: ./templates/vault.service
+          dest: /usr/lib/systemd/system/vault.service
+          owner: root
+          group: root
+          mode: '0644'
+          backup: yes
+      - name: Reload systemd configs
+        ansible.builtin.systemd:
+          daemon_reload: yes
+      - name: Reset Vault directory permissions
         file:
-          path: /etc/consul.d
+          path: /etc/vault.d
           state: directory
           mode: '755'
-          owner: consul
-          group: consul
-      - name: enable consul service and start it
+          owner: vault
+          group: vault
+      - name: Enable the Vault service and start it
         systemd:
-          name: consul.service
+          name: vault.service
           enabled: yes
           state: started
       - name: Reboot machine
         reboot:
+
+# Create directory structure 
+# /vault/data 

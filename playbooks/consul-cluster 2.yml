@@ -1,7 +1,9 @@
 ---
   - hosts: all
-    vars_files:
-      - vars.yaml
+    vars:
+      - ENCRYPT_KEY: $ENCRYPT_KEY
+      - DATACENTER: $DATACENTER
+      - ACL_TOKEN: $ACL_TOKEN
     tasks:
       - name: Update apt packages
         apt: upgrade=yes update_cache=yes
@@ -29,7 +31,7 @@
       - name: Set consul client environment variable 
         blockinfile:
           path: /root/.bashrc
-          block: export CONSUL_HTTP_ADDR="http://127.0.0.1:8500"
+          block: export CONSUL_HTTP_ADDR="http://{{ ansible_ens3.ipv4.address }}:8500"
       - name: Copy server config to /etc/consul.d/server.hcl
         copy:
           src: ./templates/server.hcl
